@@ -202,18 +202,21 @@ export default function Dropzone() {
          })
       );
    };
-   const checkIsReady = (): void => {
-      let tmp_is_ready = true;
-      actions.forEach((action: Action) => {
-         if (!action.to) tmp_is_ready = false;
-      });
-      setIsReady(tmp_is_ready);
-   };
+
    const deleteAction = (action: Action): void => {
       setActions(actions.filter((elt) => elt !== action));
       setFiles(files.filter((elt) => elt.name !== action.file_name));
    };
+
    useEffect(() => {
+      const checkIsReady = (): void => {
+         let tmp_is_ready = true;
+         actions.forEach((action: Action) => {
+            if (!action.to) tmp_is_ready = false;
+         });
+         setIsReady(tmp_is_ready);
+      };
+
       if (!actions.length) {
          setIsDone(false);
          setFiles([]);
@@ -221,6 +224,7 @@ export default function Dropzone() {
          setIsConverting(false);
       } else checkIsReady();
    }, [actions]);
+
    useEffect(() => {
       load();
    }, []);
